@@ -6,25 +6,11 @@ from pprint import pprint
 
 ##Find free EIP
 ec2 = boto3.client('ec2')
-response2 = ec2.describe_addresses()
-if not response2['Addresses']:
-  print("No EIP available in Pool")
-  exit(0)
+response2 = ec2.allocate_address()
+eip=response2['AllocationId']
 
-eip_list=[]
-for each_eip in response2['Addresses']:
-  try:
-    ccc=each_eip['AssociationId']
-  except KeyError:
-    eip_list.append(each_eip['AllocationId'])
-# eip_list here is the list of free eip
-#pprint(eip_list)
-if not eip_list:
-  print("No Free EIP available in Pool")
-  exit(0)
 
 ##Create ENI
-ec2 = boto3.client('ec2')
 response = ec2.create_network_interface(
     Description='PythonENI',
     Groups=[
@@ -44,9 +30,8 @@ response1 = ec2.attach_network_interface(
 
 
 ##Associate free EIP to ENI
-ec2 = boto3.client('ec2')
 response3 = ec2.associate_address(
-    AllocationId=eip_list[0],
+    AllocationId=eip,
     NetworkInterfaceId=eni,
 )
 

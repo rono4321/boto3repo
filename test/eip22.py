@@ -10,6 +10,6 @@ response = client.complete_lifecycle_action(
     LifecycleHookName='DetachLC',
     AutoScalingGroupName='MyASG',
     LifecycleActionResult='CONTINUE',
-    InstanceId="i-009ac2ea467a581df"
+    InstanceId="i-042fa8f1094bfc753"
 )
 

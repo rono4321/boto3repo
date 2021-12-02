@@ -7,10 +7,8 @@ ec2 = boto3.client('ec2')
 EC2InstanceId = "MyInstance"
 
 response = ec2.describe_addresses(
-    Filters=[{'Name':'tag:string', 'Values':["i-0e938a4d6e11477d1"]},
+    Filters=[{'Name':'tag:string', 'Values':[EC2InstanceId]},
           ]
-
-
 )
 
 AllocationId=response['Addresses'][0]['AllocationId']
